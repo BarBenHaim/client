@@ -27,7 +27,7 @@ const CodeBlock = () => {
 
     useEffect(() => {
         connectSocket(id, setRole, setUsersCount)
-        subscribeToChanges(newCode => setCode(newCode))
+        subscribeToChanges(setCode)
     }, [])
 
     const handleCodeChange = e => {
