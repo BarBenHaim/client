@@ -26,6 +26,7 @@ const CodeBlock = () => {
     }, [id, navigate])
 
     useEffect(() => {
+        connectSocket(id, setRole, setUsersCount)
         subscribeToChanges(newCode => setCode(newCode))
     }, [])
 
