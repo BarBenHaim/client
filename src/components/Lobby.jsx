@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchCodeBlocks } from '../../utils/api'
-import './Lobby.css'
+import { fetchCodeBlocks } from '../utils/api'
 
 const Lobby = () => {
     const [codeBlocks, setCodeBlocks] = useState([])

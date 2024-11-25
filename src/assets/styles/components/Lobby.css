@@ -1,0 +1,49 @@
+.lobby {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lobby h1 {
+    font-size: 24px;
+    color: #4caf50;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.lobby ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lobby li {
+    cursor: pointer;
+    margin: 15px 0;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.lobby li:hover {
+    background-color: #e8f5e9;
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lobby li:active {
+    transform: scale(0.98);
+}
+
+.lobby li span {
+    font-weight: bold;
+    color: #333;
+}

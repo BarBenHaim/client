@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { fetchCodeBlock } from '../../utils/api'
-import { connectSocket, disconnectSocket, subscribeToChanges, emitCodeChange, executeCode } from '../../utils/socket'
-import './CodeBlock.css'
+import { fetchCodeBlock } from '../utils/api'
+import { connectSocket, disconnectSocket, subscribeToChanges, emitCodeChange, executeCode } from '../utils/socket'
 
 const CodeBlock = () => {
     const { id } = useParams()
