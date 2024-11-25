@@ -1,37 +1,41 @@
 .code-block {
     text-align: center;
-    padding: 40px;
-    font-family: var(--font-family);
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 40px auto;
+    padding: 30px;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e8eaf6, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    max-width: 900px;
+    margin: 50px auto;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-textarea {
+.code-block:hover {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.CodeMirror {
     width: 96%;
-    height: 300px;
-    font-size: 16px;
+    height: 400px;
+    padding: 10px;
+    text-align: left;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: 'Courier New', monospace;
-    resize: none;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #fdfdfd;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-textarea:focus {
+.CodeMirror-focused {
     outline: none;
-    border-color: #45a049;
 }
 
 .smiley {
-    font-size: 50px;
+    font-size: 60px;
     color: #4caf50;
     margin-top: 20px;
-    animation: bounce 1s infinite;
+    animation: bounce 1.2s infinite ease-in-out;
 }
 
 @keyframes bounce {
@@ -40,50 +44,78 @@ textarea:focus {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-15px);
     }
 }
 
 .console {
-    margin-top: 20px;
-    text-align: left;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 18px;
 }
 
 .console button {
-    background-color: #4caf50;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .console button:hover {
     background-color: #45a049;
-    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(71, 71, 71, 0.25);
+}
+
+.console button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .console button:disabled {
-    background-color: #ccc;
+    background: #ddd;
+    color: #aaa;
     cursor: not-allowed;
 }
 
 .output {
     margin-top: 20px;
-    background-color: #f1f1f1;
+    background: linear-gradient(135deg, #fdfdfd, #f1f1f1);
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     font-family: 'Courier New', monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
+    text-align: left;
 }
 
 .output h3 {
-    margin-block-end: 10px;
-    font-size: 18px;
+    font-size: 20px;
     color: #333;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .code-block {
+        padding: 20px;
+    }
+
+    .CodeMirror {
+        height: 300px;
+    }
+
+    .console button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .output h3 {
+        font-size: 18px;
+    }
 }

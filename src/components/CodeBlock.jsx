@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { fetchCodeBlock } from '../utils/api'
 import { connectSocket, disconnectSocket, subscribeToChanges, emitCodeChange, executeCode } from '../utils/socket'
+import { Controlled as CodeMirror } from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/material.css'
+import 'codemirror/mode/javascript/javascript'
 
 const CodeBlock = () => {
     const { id } = useParams()
@@ -30,11 +34,13 @@ const CodeBlock = () => {
         subscribeToChanges(setCode)
     }, [])
 
-    const handleCodeChange = e => {
-        const newCode = e.target.value
-        setCode(newCode)
-        emitCodeChange(newCode)
-    }
+    const handleCodeChange = useCallback(
+        (editor, data, value) => {
+            setCode(value)
+            emitCodeChange(value)
+        },
+        [setCode]
+    )
 
     const handleRunCode = () => {
         executeCode(code, result => {
@@ -47,11 +53,19 @@ const CodeBlock = () => {
         <div className='code-block'>
             <h1>{role === 'mentor' ? 'Mentor View' : 'Student View'}</h1>
             <p>Users in room: {usersCount}</p>
-            {role === 'mentor' ? (
-                <textarea value={code} readOnly />
-            ) : (
-                <textarea value={code} onChange={handleCodeChange} />
-            )}
+            <CodeMirror
+                value={code}
+                options={{
+                    mode: 'javascript',
+                    theme: 'material',
+                    lineNumbers: true,
+                    readOnly: role === 'mentor',
+                    extraKeys: {
+                        'Ctrl-Space': 'autocomplete',
+                    },
+                }}
+                onBeforeChange={handleCodeChange}
+            />
             {code === solution && <div className='smiley'>😊</div>}
 
             {role !== 'mentor' && (
