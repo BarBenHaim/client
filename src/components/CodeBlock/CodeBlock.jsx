@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { fetchCodeBlock } from '../../utils/api'
-import { connectSocket, disconnectSocket, subscribeToChanges, emitCodeChange } from '../../utils/socket'
+import { connectSocket, disconnectSocket, subscribeToChanges, emitCodeChange, executeCode } from '../../utils/socket'
 import './CodeBlock.css'
 
 const CodeBlock = () => {
@@ -11,6 +11,7 @@ const CodeBlock = () => {
     const [solution, setSolution] = useState('')
     const [role, setRole] = useState('student')
     const [usersCount, setUsersCount] = useState(0)
+    const [output, setOutput] = useState('')
 
     useEffect(() => {
         fetchCodeBlock(id).then(data => {
@@ -36,6 +37,13 @@ const CodeBlock = () => {
         emitCodeChange(newCode)
     }
 
+    const handleRunCode = () => {
+        executeCode(code, result => {
+            setOutput(result)
+            console.log(result)
+        })
+    }
+
     return (
         <div className='code-block'>
             <h1>{role === 'mentor' ? 'Mentor View' : 'Student View'}</h1>
@@ -46,6 +54,13 @@ const CodeBlock = () => {
                 <textarea value={code} onChange={handleCodeChange} />
             )}
             {code === solution && <div className='smiley'>😊</div>}
+            <button onClick={handleRunCode} disabled={role === 'mentor'}>
+                Run Code
+            </button>
+            <div className='output'>
+                <h3>Output:</h3>
+                <pre>{output || 'No output yet.'}</pre>
+            </div>
         </div>
     )
 }

@@ -71,6 +71,9 @@ export const emitCodeChange = code => {
     socket.emit('codeChange', code) // Emit code change to server
 }
 
-export const isSocketInitialized = () => {
-    return !!socket
+// New function to execute code
+export const executeCode = (code, callback) => {
+    if (!socket) return
+    socket.emit('executeCode', code)
+    socket.once('executionResult', result => callback(result))
 }
