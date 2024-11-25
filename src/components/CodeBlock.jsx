@@ -16,6 +16,7 @@ const CodeBlock = () => {
     const [usersCount, setUsersCount] = useState(0)
     const [output, setOutput] = useState('')
 
+    // Fetch code block data and connect WebSocket on mount
     useEffect(() => {
         fetchCodeBlock(id).then(data => {
             setCode(data.initialCode)
@@ -23,25 +24,29 @@ const CodeBlock = () => {
             connectSocket(id, setRole, setUsersCount)
         })
 
+        // Disconnect WebSocket and navigate back on unmount
         return () => {
             disconnectSocket()
             navigate('/')
         }
     }, [id, navigate])
 
+    // Subscribe to real-time code updates
     useEffect(() => {
         connectSocket(id, setRole, setUsersCount)
         subscribeToChanges(setCode)
     }, [])
 
+    // Handle code changes in the editor
     const handleCodeChange = useCallback(
         (editor, data, value) => {
             setCode(value)
-            emitCodeChange(value)
+            emitCodeChange(value) // Send updates to the server
         },
         [setCode]
     )
 
+    // Execute code and display output
     const handleRunCode = () => {
         executeCode(code, result => {
             setOutput(result)

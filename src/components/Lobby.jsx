@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchCodeBlocks } from '../utils/api'
-import { addImagesToCodeBlocks } from '../utils/imageUtils'
+import { fetchCodeBlocks } from '../utils/api' // Fetch the list of code blocks from an API
+import { addImagesToCodeBlocks } from '../utils/imageUtils' // Associate images with code blocks
 
 const Lobby = () => {
-    const [codeBlocks, setCodeBlocks] = useState([])
+    const [codeBlocks, setCodeBlocks] = useState([]) // Stores the list of code blocks
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -19,10 +19,10 @@ const Lobby = () => {
         }
 
         fetchAndAddImages()
-    }, [])
+    }, []) // Runs once after the component mounts
 
     const handleSelect = id => {
-        navigate(`/codeblock/${id}`)
+        navigate(`/codeblock/${id}`) // Navigate to the selected code block page
     }
 
     return (
