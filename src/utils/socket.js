@@ -12,24 +12,19 @@ export const connectSocket = (roomId, setRole, setUsersCount) => {
         socket.emit('joinRoom', roomId)
     })
 
-    socket.on('assignRole', role => {
-        console.log('Role assigned:', role)
-        setRole(role)
-    })
-
-    socket.on('updateUsersCount', count => {
-        console.log('Users count updated:', count)
-        setUsersCount(count)
-    })
-
+    socket.on('assignRole', role => setRole(role))
+    socket.on('updateUsersCount', count => setUsersCount(count))
     socket.on('mentorLeft', () => {
-        console.log('Mentor left the room. Redirecting to lobby...')
         alert('The mentor has left the room. Redirecting to the lobby.')
         window.location.href = '/'
     })
 
     socket.on('codeUpdate', updatedCode => {
         console.log('Real-time code update received:', updatedCode)
+    })
+
+    socket.on('executionResult', result => {
+        console.log('Execution result received:', result)
     })
 
     socket.on('connect_error', error => {
@@ -43,23 +38,18 @@ export const connectSocket = (roomId, setRole, setUsersCount) => {
 
 export const disconnectSocket = () => {
     if (socket) {
-        console.log('Disconnecting from socket...')
         socket.disconnect()
         socket = null
     }
 }
 
 export const subscribeToChanges = callback => {
-    console.log(socket)
     if (!socket) {
         console.error('Socket not initialized. Cannot subscribe to changes.')
         return
     }
-    socket.off('codeUpdate') // Remove any previous listeners to avoid duplicates
-    socket.on('codeUpdate', updatedCode => {
-        console.log('Real-time code update received:', updatedCode)
-        callback(updatedCode) // Trigger callback with the updated code
-    })
+    socket.off('codeUpdate')
+    socket.on('codeUpdate', updatedCode => callback(updatedCode))
 }
 
 export const emitCodeChange = code => {
@@ -67,13 +57,13 @@ export const emitCodeChange = code => {
         console.error('Socket not initialized. Cannot emit code change.')
         return
     }
-    console.log('Emitting code change:', code)
-    socket.emit('codeChange', code) // Emit code change to server
+    socket.emit('codeChange', code)
 }
 
-// New function to execute code
 export const executeCode = (code, callback) => {
     if (!socket) return
     socket.emit('executeCode', code)
     socket.once('executionResult', result => callback(result))
 }
+
+export const isSocketInitialized = () => !!socket
