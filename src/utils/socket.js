@@ -12,8 +12,8 @@ export const connectSocket = (roomId, setRole, setUsersCount) => {
         socket.emit('joinRoom', roomId)
     })
 
-    socket.on('assignRole', role => setRole(role))
-    socket.on('updateUsersCount', count => setUsersCount(count))
+    socket.on('assignRole', setRole)
+    socket.on('updateUsersCount', setUsersCount)
     socket.on('mentorLeft', () => {
         alert('The mentor has left the room. Redirecting to the lobby.')
         window.location.href = '/'
@@ -63,7 +63,7 @@ export const emitCodeChange = code => {
 export const executeCode = (code, callback) => {
     if (!socket) return
     socket.emit('executeCode', code)
-    socket.once('executionResult', result => callback(result))
+    socket.once('executionResult', callback)
 }
 
 export const isSocketInitialized = () => !!socket
