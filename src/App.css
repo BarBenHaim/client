@@ -4,3 +4,6 @@
 /* COMPONENTS */
 @import './assets/styles/components/CodeBlock.css';
 @import './assets/styles/components/Lobby.css';
+
+/* SETUP */
+@import './assets/styles/setup/variables.css';
