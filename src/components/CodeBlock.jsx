@@ -53,7 +53,7 @@ const CodeBlock = () => {
             console.log(result)
         })
     }
-
+    console.log(code)
     return (
         <div className='code-block'>
             <h1>{role === 'mentor' ? 'Mentor View' : 'Student View'}</h1>

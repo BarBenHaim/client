@@ -4,10 +4,8 @@ let socket
 
 export const connectSocket = (roomId, setRole, setUsersCount) => {
     if (!socket) {
-        const SOCKET_SERVER_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'
-        socket = io(SOCKET_SERVER_URL, {
-            transports: ['websocket'],
-        })
+        // const SOCKET_SERVER_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'
+        socket = io('http://localhost:5000')
 
         socket.on('connect', () => {
             console.log('Socket connected:', socket.id)
@@ -43,7 +41,6 @@ export const subscribeToChanges = callback => {
         console.error('Socket not initialized. Cannot subscribe to changes.')
         return
     }
-    socket.off('codeUpdate')
     socket.on('codeUpdate', updatedCode => callback(updatedCode))
 }
 
