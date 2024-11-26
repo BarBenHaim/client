@@ -8,35 +8,27 @@ export const connectSocket = (roomId, setRole, setUsersCount) => {
         socket = io(SOCKET_SERVER_URL, {
             transports: ['websocket'],
         })
+
+        socket.on('connect', () => {
+            console.log('Socket connected:', socket.id)
+            socket.emit('joinRoom', roomId)
+        })
+
+        socket.on('assignRole', setRole)
+        socket.on('updateUsersCount', setUsersCount)
+        socket.on('mentorLeft', () => {
+            alert('The mentor has left the room. Redirecting to the lobby.')
+            window.location.href = '/'
+        })
+
+        socket.on('connect_error', error => {
+            console.error('Socket connection error:', error)
+        })
+
+        socket.on('disconnect', () => {
+            console.log('Socket disconnected')
+        })
     }
-
-    socket.on('connect', () => {
-        console.log('Socket connected:', socket.id)
-        socket.emit('joinRoom', roomId)
-    })
-
-    socket.on('assignRole', setRole)
-    socket.on('updateUsersCount', setUsersCount)
-    socket.on('mentorLeft', () => {
-        alert('The mentor has left the room. Redirecting to the lobby.')
-        window.location.href = '/'
-    })
-
-    socket.on('codeUpdate', updatedCode => {
-        console.log('Real-time code update received:', updatedCode)
-    })
-
-    socket.on('executionResult', result => {
-        console.log('Execution result received:', result)
-    })
-
-    socket.on('connect_error', error => {
-        console.error('Socket connection error:', error)
-    })
-
-    socket.on('disconnect', () => {
-        console.log('Socket disconnected')
-    })
 }
 
 export const disconnectSocket = () => {
