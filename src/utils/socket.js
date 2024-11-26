@@ -4,8 +4,14 @@ let socket
 
 export const connectSocket = (roomId, setRole, setUsersCount) => {
     if (!socket) {
-        // const SOCKET_SERVER_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'
-        socket = io('http://localhost:5000')
+        const baseUrl =
+            process.env.NODE_ENV === 'production'
+                ? '' // Use the same origin in production
+                : 'http://localhost:5000' // Use localhost for development
+
+        socket = io(baseUrl, {
+            transports: ['websocket'], // Ensures compatibility
+        })
 
         socket.on('connect', () => {
             console.log('Socket connected:', socket.id)
