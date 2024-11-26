@@ -4,7 +4,10 @@ let socket
 
 export const connectSocket = (roomId, setRole, setUsersCount) => {
     if (!socket) {
-        socket = io('http://localhost:5000')
+        const SOCKET_SERVER_URL = process.env.REACT_APP_API_BASE_UR || 'http://localhost:5000'
+        socket = io(SOCKET_SERVER_URL, {
+            transports: ['websocket'],
+        })
     }
 
     socket.on('connect', () => {
