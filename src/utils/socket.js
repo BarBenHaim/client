@@ -5,12 +5,10 @@ let socket
 export const connectSocket = (roomId, setRole, setUsersCount) => {
     if (!socket) {
         const baseUrl =
-            process.env.NODE_ENV === 'production'
-                ? '' // Use the same origin in production
-                : 'http://localhost:5000' // Use localhost for development
+            process.env.NODE_ENV === 'production' ? 'https://moveo-bar-ben-haim.onrender.com' : 'http://localhost:5000'
 
         socket = io(baseUrl, {
-            transports: ['websocket'], // Ensures compatibility
+            transports: ['websocket'],
         })
 
         socket.on('connect', () => {
