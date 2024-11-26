@@ -10,7 +10,8 @@ import 'codemirror/mode/javascript/javascript'
 const CodeBlock = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const [code, setCode] = useState('')
+
+    const [code, setCode] = useState(null) // Start with `null` to represent "loading"
     const [solution, setSolution] = useState('')
     const [role, setRole] = useState('student')
     const [usersCount, setUsersCount] = useState(0)
@@ -18,11 +19,16 @@ const CodeBlock = () => {
 
     // Fetch code block data and connect WebSocket on mount
     useEffect(() => {
-        fetchCodeBlock(id).then(data => {
-            setCode(data.initialCode)
-            setSolution(data.solution)
-            connectSocket(id, setRole, setUsersCount)
-        })
+        fetchCodeBlock(id)
+            .then(data => {
+                setCode(data.initialCode) // Use fetched `initialCode`
+                setSolution(data.solution) // Set the solution for later comparison
+                connectSocket(id, setRole, setUsersCount) // Connect WebSocket
+            })
+            .catch(err => {
+                console.error('Error fetching code block:', err)
+                setCode('Error loading code.') // Fallback in case of an error
+            })
 
         // Disconnect WebSocket and navigate back on unmount
         return () => {
@@ -33,7 +39,6 @@ const CodeBlock = () => {
 
     // Subscribe to real-time code updates
     useEffect(() => {
-        connectSocket(id, setRole, setUsersCount)
         subscribeToChanges(setCode)
     }, [])
 
@@ -53,7 +58,12 @@ const CodeBlock = () => {
             console.log(result)
         })
     }
-    console.log(code)
+
+    // Show a loading state until the `initialCode` is loaded
+    if (code === null) {
+        return <div>Loading code block...</div>
+    }
+
     return (
         <div className='code-block'>
             <h1>{role === 'mentor' ? 'Mentor View' : 'Student View'}</h1>
