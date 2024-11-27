@@ -100,22 +100,3 @@
     color: #333;
     margin-bottom: 10px;
 }
-
-@media (max-width: 768px) {
-    .code-block {
-        padding: 20px;
-    }
-
-    .CodeMirror {
-        height: 300px;
-    }
-
-    .console button {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
-
-    .output h3 {
-        font-size: 18px;
-    }
-}

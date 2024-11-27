@@ -1,5 +1,6 @@
 /* BASE */
 @import './assets/styles/basics/base.css';
+@import './assets/styles/basics/mq.css';
 
 /* COMPONENTS */
 @import './assets/styles/components/CodeBlock.css';
